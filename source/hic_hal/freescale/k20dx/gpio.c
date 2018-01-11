@@ -55,7 +55,10 @@ void gpio_init(void)
     LED_CONNECTED_GPIO->PCOR = 1UL << LED_CONNECTED_BIT;
     // reset button configured as gpio input
     PIN_nRESET_GPIO->PDDR &= ~PIN_nRESET;
-    PIN_nRESET_PORT->PCR[PIN_nRESET_BIT] = PORT_PCR_MUX(1);
+    PIN_nRESET_PORT->PCR[PIN_nRESET_BIT] = PORT_PCR_MUX(1)  |  /* GPIO */
+                                           PORT_PCR_PE_MASK |  /* Pull enable */
+                                           PORT_PCR_PS_MASK |  /* Pull-up */
+                                           PORT_PCR_ODE_MASK;  /* Open-drain */
 
     // configure pin as GPIO
     PIN_POWER_EN_PORT->PCR[PIN_POWER_EN_BIT] = PORT_PCR_MUX(1);
